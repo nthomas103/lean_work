@@ -179,7 +179,8 @@ definition invertible (M : matrix A n n) :=
 ---- added by NCT:
 
 -- castmx might not be needed
-definition castmx {m' n'} (eq_mn : m = m' × n = n') (M : matrix A m n) : matrix A m' n' := 
+definition castmx {m' n'} (eq_mn : m = m' × n = n') (M : matrix A m n) : 
+           matrix A m' n' := 
 sorry
 
 definition row_perm (p : perm (fin m)) (M : matrix A m n) :=
@@ -188,15 +189,19 @@ definition row_perm (p : perm (fin m)) (M : matrix A m n) :=
 definition col_perm (p : perm (fin n)) (M : matrix A m n) :=
 λ i j, M[i, (move_by j p)]
 
-definition xrow (i₁ i₂ : fin m) (M : matrix A m n) := row_perm (swap_perm i₁ i₂) M
+definition xrow (i₁ i₂ : fin m) (M : matrix A m n) := 
+           row_perm (swap_perm i₁ i₂) M
 
-definition xcol (j₁ j₂ : fin n) (M : matrix A m n) := col_perm (swap_perm j₁ j₂) M
+definition xcol (j₁ j₂ : fin n) (M : matrix A m n) := 
+           col_perm (swap_perm j₁ j₂) M
 
 definition row' (i0 : fin (succ m)) (M : matrix A (succ m) n) : matrix A m n :=
-λ (i : fin m) (j : fin n), if i < i0 then M[(lift_succ i), j] else M[succ i, j]
+λ (i : fin m) (j : fin n), 
+  if i < i0 then M[(lift_succ i), j] else M[succ i, j]
 
 definition col' (j0 : fin (succ n)) (M : matrix A m (succ n)) : matrix A m n :=
-λ (i : fin m) (j : fin n), if j < j0 then M[i, (lift_succ j)] else M[i, succ j]
+λ (i : fin m) (j : fin n), 
+  if j < j0 then M[i, (lift_succ j)] else M[i, succ j]
 
 section const
 
@@ -204,23 +209,31 @@ variables {a : A}
 
 lemma trmx_const : transpose (const_mx m n a) = !const_mx a := sorry
 
-lemma row_perm_const (p : perm (fin m)) : row_perm p (const_mx m n a) = !const_mx a :=
+lemma row_perm_const (p : perm (fin m)) : 
+      row_perm p (const_mx m n a) = !const_mx a :=
 matrix.ext (λ i j, rfl)
 
-lemma col_perm_const (p : perm (fin n)) : col_perm p (const_mx m n a) = !const_mx a :=
+lemma col_perm_const (p : perm (fin n)) : 
+      col_perm p (const_mx m n a) = !const_mx a :=
 matrix.ext (λ i j, rfl)
 
-lemma xrow_const (i₁ i₂ : fin m) : xrow i₁ i₂ (const_mx m n a) = !const_mx a := sorry
+lemma xrow_const (i₁ i₂ : fin m) : 
+      xrow i₁ i₂ (const_mx m n a) = !const_mx a := sorry
 
-lemma xcol_const (j₁ j₂ : fin n) : xcol j₁ j₂ (const_mx m n a) = !const_mx a := sorry
+lemma xcol_const (j₁ j₂ : fin n) : 
+      xcol j₁ j₂ (const_mx m n a) = !const_mx a := sorry
 
-lemma row_const (i₀ : fin m) : get_row i₀ (const_mx m n a) = !const_mx a := sorry
+lemma row_const (i₀ : fin m) : get_row i₀ (const_mx m n a) = !const_mx a := 
+sorry
 
-lemma col_const (j₀ : fin n) : get_col j₀ (const_mx m n a) = !const_mx a := sorry
+lemma col_const (j₀ : fin n) : get_col j₀ (const_mx m n a) = !const_mx a := 
+sorry
 
-lemma row'_const (i₀ : fin (succ m)) : row' i₀ (const_mx (succ m) n a) = !const_mx a := sorry
+lemma row'_const (i₀ : fin (succ m)) : 
+      row' i₀ (const_mx (succ m) n a) = !const_mx a := sorry
 
-lemma col'_const (j₀ : fin (succ n)) : col' j₀ (const_mx m (succ n) a) = !const_mx a := sorry
+lemma col'_const (j₀ : fin (succ n)) : 
+      col' j₀ (const_mx m (succ n) a) = !const_mx a := sorry
 
 end const
 
@@ -241,13 +254,17 @@ lemma transpose_invo (M : matrix A m n) : Mᵀᵀ = M := sorry
 
 lemma transpose_inj : injective (λ M : matrix A m n, Mᵀ) := sorry
 
-lemma tr_row_perm s (M : matrix A m n) : (row_perm s M)ᵀ = col_perm s Mᵀ := sorry
+lemma tr_row_perm s (M : matrix A m n) : (row_perm s M)ᵀ = col_perm s Mᵀ := 
+sorry
 
-lemma tr_col_perm s (M : matrix A m n) : (col_perm s M)ᵀ = row_perm s Mᵀ := sorry
+lemma tr_col_perm s (M : matrix A m n) : (col_perm s M)ᵀ = row_perm s Mᵀ := 
+sorry
 
-lemma tr_xrow i₁ i₂ (M : matrix A m n) : (xrow i₁ i₂ M)ᵀ = xcol i₁ i₂ Mᵀ := sorry
+lemma tr_xrow i₁ i₂ (M : matrix A m n) : (xrow i₁ i₂ M)ᵀ = xcol i₁ i₂ Mᵀ := 
+sorry
 
-lemma tr_xcol j₁ j₂ (M : matrix A m n) : (xcol j₁ j₂ M)ᵀ = xrow j₁ j₂ Mᵀ := sorry
+lemma tr_xcol j₁ j₂ (M : matrix A m n) : (xcol j₁ j₂ M)ᵀ = xrow j₁ j₂ Mᵀ := 
+sorry
 
 lemma row_id i (v : row_vector A n) : get_row i v = v := sorry
 
@@ -257,17 +274,22 @@ lemma row_eq m₁ m₂ i₁ i₂ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ 
       get_row i₁ M₁ = get_row i₂ M₂ → M₁ i₁ = M₂ i₂ := sorry
 
 lemma col_eq n₁ n₂ j₁ j₂ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) :
-      get_col j₁ M₁ = get_col j₂ M₂ → (λ i : fin m, M₁ i j₁) = (λ i : fin m, M₂ i j₂) := sorry
+      get_col j₁ M₁ = get_col j₂ M₂ → 
+      (λ i : fin m, M₁ i j₁) = (λ i : fin m, M₂ i j₂) := sorry
 
 --lemma row'_eq i₀ (M N : matrix A m n) : row' i₀ M = row' i₀ N →
 
-lemma tr_row i₀ (M : matrix A m n) : (get_row i₀ M)ᵀ = get_col i₀ Mᵀ := sorry
+lemma tr_row i₀ (M : matrix A m n) : (get_row i₀ M)ᵀ = get_col i₀ Mᵀ := 
+sorry
 
-lemma tr_row' i₀ (M : matrix A (succ m) n) : (row' i₀ M)ᵀ = col' i₀ Mᵀ := sorry
+lemma tr_row' i₀ (M : matrix A (succ m) n) : (row' i₀ M)ᵀ = col' i₀ Mᵀ := 
+sorry
 
-lemma tr_col j₀ (M : matrix A m n) : (get_col j₀ M)ᵀ = get_row j₀ Mᵀ := sorry
+lemma tr_col j₀ (M : matrix A m n) : (get_col j₀ M)ᵀ = get_row j₀ Mᵀ := 
+sorry
 
-lemma tr_col' j₀ (M : matrix A m (succ n)) : (col' j₀ M)ᵀ = row' j₀ Mᵀ := sorry
+lemma tr_col' j₀ (M : matrix A m (succ n)) : (col' j₀ M)ᵀ = row' j₀ Mᵀ := 
+sorry
 
 -- concatenating two matrices, in either direction
 
@@ -275,15 +297,16 @@ section
 
 variables {m₁ m₂ m₃ n₁ n₂ n₃ : ℕ}
 
-definition row_mx (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : matrix A m (n₁ + n₂) :=
+definition row_mx (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
+           matrix A m (n₁ + n₂) :=
 λ i j, dite ((fin.val j) < n₁) 
-       (λ h,  M₁[i, (fin.mk (fin.val j) h)])
-       (λ nh, M₂[i, (fin.mk ((fin.val j) - n₁) (split_helper nh (fin.is_lt j)))])
+  (λ h,  M₁[i, (fin.mk (fin.val j) h)])
+  (λ nh, M₂[i, (fin.mk ((fin.val j) - n₁) (split_helper nh (fin.is_lt j)))])
 
 definition col_mx (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : matrix A (m₁ + m₂) n :=
 λ i j, dite ((fin.val i) < m₁)
-       (λ h,  M₁[(fin.mk (fin.val i) h), j])
-       (λ nh, M₂[(fin.mk ((fin.val i) - m₁) (split_helper nh (fin.is_lt i))), j])
+  (λ h,  M₁[(fin.mk (fin.val i) h), j])
+  (λ nh, M₂[(fin.mk ((fin.val i) - m₁) (split_helper nh (fin.is_lt i))), j])
 
 -- submatrices
 
@@ -311,7 +334,8 @@ lemma row_mxEr (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) :
 lemma row_mxKr (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
       rsubmx (row_mx M₁ M₂) = M₂ := sorry
 
-lemma hsubmxK (M : matrix A m (n₁ + n₂)) : row_mx (lsubmx M) (rsubmx M) = M := sorry
+lemma hsubmxK (M : matrix A m (n₁ + n₂)) : 
+      row_mx (lsubmx M) (rsubmx M) = M := sorry
 
 lemma col_mxEl (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
       ∀ i j, (col_mx M₁ M₂)[(!lshift i), j] = M₁[i, j] := sorry
@@ -331,37 +355,48 @@ lemma eq_row_mx (M₁ N₁: matrix A m n₁) (M₂ N₂: matrix A m n₂) :
 lemma eq_col_mx (M₁ N₁: matrix A m₁ n) (M₂ N₂: matrix A m₂ n) : 
       col_mx M₁ M₂ = col_mx N₁ N₂ → M₁ = N₁ ∧ M₂ = N₂ := sorry
 
-lemma row_mx_const (a : A) : row_mx (const_mx m n₁ a) (const_mx m n₂ a) = !const_mx a := sorry
+lemma row_mx_const (a : A) : row_mx (const_mx m n₁ a) (const_mx m n₂ a) = 
+      !const_mx a := sorry
 
-lemma col_mx_const (a : A) : col_mx (const_mx m₁ n a) (const_mx m₂ n a) = !const_mx a := sorry
+lemma col_mx_const (a : A) : col_mx (const_mx m₁ n a) (const_mx m₂ n a) = 
+      !const_mx a := sorry
 
-lemma trmx_lsub (M : matrix A m (n₁ + n₂)) : (lsubmx M)ᵀ = usubmx Mᵀ := sorry
-
-lemma trmx_rsub (M : matrix A m (n₁ + n₂)) : (rsubmx M)ᵀ = dsubmx Mᵀ := sorry
-
-lemma tr_row_mx (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : (row_mx M₁ M₂)ᵀ = col_mx M₁ᵀ M₂ᵀ := 
+lemma trmx_lsub (M : matrix A m (n₁ + n₂)) : (lsubmx M)ᵀ = usubmx Mᵀ := 
 sorry
 
-lemma tr_col_mx (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : (col_mx M₁ M₂)ᵀ = row_mx M₁ᵀ M₂ᵀ := 
+lemma trmx_rsub (M : matrix A m (n₁ + n₂)) : (rsubmx M)ᵀ = dsubmx Mᵀ := 
 sorry
 
-lemma trmx_usub (M : matrix A (m₁ + m₂) n) : (usubmx M)ᵀ = lsubmx Mᵀ := sorry
+lemma tr_row_mx (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
+      (row_mx M₁ M₂)ᵀ = col_mx M₁ᵀ M₂ᵀ := 
+sorry
 
-lemma trmx_dsub (M : matrix A (m₁ + m₂) n) : (dsubmx M)ᵀ = rsubmx Mᵀ := sorry
+lemma tr_col_mx (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
+      (col_mx M₁ M₂)ᵀ = row_mx M₁ᵀ M₂ᵀ := 
+sorry
 
-lemma vsubmxK (M : matrix A (m₁ + m₂) n) : col_mx (usubmx M) (dsubmx M) = M := sorry
+lemma trmx_usub (M : matrix A (m₁ + m₂) n) : (usubmx M)ᵀ = lsubmx Mᵀ := 
+sorry
 
-lemma row_mxA (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) (M₃ : matrix A m n₃) :
-      row_mx M₁ (row_mx M₂ M₃) == row_mx (row_mx M₁ M₂) M₃ := sorry
+lemma trmx_dsub (M : matrix A (m₁ + m₂) n) : (dsubmx M)ᵀ = rsubmx Mᵀ := 
+sorry
 
-lemma col_mxA (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) (M₃ : matrix A m₃ n) :
-      col_mx M₁ (col_mx M₂ M₃) == col_mx (col_mx M₁ M₂) M₃ := sorry
+lemma vsubmxK (M : matrix A (m₁ + m₂) n) : 
+      col_mx (usubmx M) (dsubmx M) = M := sorry
+
+lemma row_mxA (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) (M₃ : matrix A m n₃)
+      : row_mx M₁ (row_mx M₂ M₃) == row_mx (row_mx M₁ M₂) M₃ := sorry
+
+lemma col_mxA (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) (M₃ : matrix A m₃ n)
+      : col_mx M₁ (col_mx M₂ M₃) == col_mx (col_mx M₁ M₂) M₃ := sorry
 
 lemma row_row_mx i₀ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
-      get_row i₀ (row_mx M₁ M₂) = row_mx (get_row i₀ M₁) (get_row i₀ M₂) := sorry
+      get_row i₀ (row_mx M₁ M₂) = row_mx (get_row i₀ M₁) (get_row i₀ M₂) :=
+sorry
 
 lemma col_col_mx j₀ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
-      get_col j₀ (col_mx M₁ M₂) = col_mx (get_col j₀ M₁) (get_col j₀ M₂) := sorry
+      get_col j₀ (col_mx M₁ M₂) = col_mx (get_col j₀ M₁) (get_col j₀ M₂) :=
+sorry
 
 lemma row'_row_mx i₀ (M₁ : matrix A (m+1) n₁) (M₂ : matrix A (m+1) n₂) : 
       row' i₀ (row_mx M₁ M₂) = row_mx (row' i₀ M₁) (row' i₀ M₂) := sorry
@@ -381,11 +416,139 @@ lemma rowKu i₁ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) :
 lemma rowKd i₂ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
       get_row (!rshift i₂) (col_mx M₁ M₂) = get_row i₂ M₂ := sorry
 
-/-lemma col'Kl j₁ (M₁ : matrix A m (n₁+1)) (M₂ : matrix A m n₂) :
-      col' (!lshift j₁) (row_mx M₁ M₂) = row_mx (col' j₁ M₁) M₂ := sorry-/
+/- elaborator issues?
+
+lemma col'Kl j₁ (M₁ : matrix A m (n₁ + 1)) (M₂ : matrix A m n₂) :
+      col' (!lshift j₁) (row_mx M₁ M₂) = row_mx (col' j₁ M₁) M₂ := sorry
+
+lemma row'Ku i₁ (M₁ : matrix A (m₁ + 1) n) (M₂ : matrix A m₂ n) :
+      row' (!lshift i₁) (col_mx M₁ M₂) = col_mx (row' i₁ M₁) M₂ := sorry
+
+lemma col'Kr j₂ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
+      col' (!rshift j₂) (row_mx M₁ M₂) == row_mx M₁ (col' j₂ M₂) := sorry
+
+lemma row'Kd i₂ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
+      row' (!rshift i₂) (col_mx M₁ M₂) == col_mx M₁ (row' i₂ M₂) := sorry
+-/
+end
 
 
+-- block matrices
 
+section block
+
+variables {m₁ m₂ n₁ n₂ : ℕ}
+
+
+definition block_mx (Mul Mur Mdl Mdr) : matrix A (m₁ + m₂) (n₁ + n₂) :=
+           col_mx (row_mx Mul Mur) (row_mx Mdl Mdr)
+
+lemma eq_block_mx (Mul Mur Mdl Mdr Nul Nur Ndl Ndr) : 
+      (@block_mx A _ m₁ m₂ n₁ n₂ Mul Mur Mdl Mdr) = block_mx Nul Nur Ndl Ndr
+      → Mul = Nul ∧ Mur = Nur ∧ Mdl = Ndl ∧ Mdr = Ndr := sorry
+
+lemma block_mx_const (a : A) : 
+      block_mx (!const_mx a) (!const_mx a) (!const_mx a) (!const_mx a) = 
+        const_mx (m₁ + m₂) (n₁ + n₂) a := sorry
+
+section cut_block
+
+variable (M : matrix A (m₁ + m₂) (n₁ + n₂))
+
+definition ulsubmx := lsubmx (usubmx M)
+definition ursubmx := rsubmx (usubmx M)
+definition dlsubmx := lsubmx (dsubmx M)
+definition drsubmx := rsubmx (dsubmx M)
+
+--lemma submxK : block_mx ulsubmx ursubmx dlsubmx drsubmx = M := sorry
+
+end cut_block
+
+section cat_block
+
+variables {Mul : matrix A m₁ n₁} {Mur : matrix A m₁ n₂}
+variables {Mdl : matrix A m₂ n₁} {Mdr : matrix A m₂ n₂}
+
+definition M := block_mx Mul Mur Mdl Mdr
+
+/- elaborator issues ?
+
+lemma block_mxEul (i j) :
+      M[(!lshift i), (!lshift j)] = Mul[i, j] := sorry
+
+lemma block_mxKul : ulsubmx M = Mul := sorry
+
+lemma block_mxEv : M = col_mx (row_mx Mul Mur) (row_mx Mdl Mdr) := sorry
+-/
+end cat_block
+
+end block
+
+section tr_cut_block
+
+variables {m₁ m₂ n₁ n₂ : ℕ}
+variable M : matrix A (m₁ + m₂) (n₁ + n₂)
+
+lemma trmx_ulsub : (ulsubmx M)ᵀ = ulsubmx Mᵀ := sorry
+
+lemma trmx_ursub : (ursubmx M)ᵀ = dlsubmx Mᵀ := sorry
+
+lemma trmx_dlsub : (dlsubmx M)ᵀ = ursubmx Mᵀ := sorry
+
+lemma trmx_drsub : (drsubmx M)ᵀ = drsubmx Mᵀ := sorry
+
+end tr_cut_block
+
+section tr_block
+
+variables {m₁ m₂ n₁ n₂ : ℕ}
+
+variables {Mul : matrix A m₁ n₁} {Mur : matrix A m₁ n₂}
+variables {Mdl : matrix A m₂ n₁} {Mdr : matrix A m₂ n₂}
+
+lemma tr_block_mx : 
+      (block_mx Mul Mur Mdl Mdr)ᵀ = block_mx Mulᵀ Mdlᵀ Murᵀ Mdrᵀ := sorry
+
+lemma block_mxEh : 
+      block_mx Mul Mur Mdl Mdr = row_mx (col_mx Mul Mdl) (col_mx Mur Mdr) :=
+sorry
+
+end tr_block
+
+lemma block_mxA {m₁ m₂ m₃ n₁ n₂ n₃}
+      (M₁₁ : matrix A m₁ n₁) (M₁₂ : matrix A m₁ n₂) (M₁₃ : matrix A m₁ n₃)
+      (M₂₁ : matrix A m₂ n₁) (M₂₂ : matrix A m₂ n₂) (M₂₃ : matrix A m₂ n₃)
+      (M₃₁ : matrix A m₃ n₁) (M₃₂ : matrix A m₃ n₂) (M₃₃ : matrix A m₃ n₃) :
+block_mx M₁₁ (row_mx M₁₂ M₁₃) (col_mx M₂₁ M₃₁) (block_mx M₂₂ M₂₃ M₃₂ M₃₃) ==
+block_mx (block_mx M₁₁ M₁₂ M₂₁ M₂₂) (col_mx M₁₃ M₂₃) (row_mx M₃₁ M₃₂) :=
+sorry
+
+section map_matrix
+
+variables {f : A → B} [comm_ring B]
+
+section one_matrix
+
+variables {M : matrix A m n} 
+
+lemma map_trmx : (map f M)ᵀ = map f Mᵀ := sorry
+
+lemma map_const_mx (a : A) : 
+      map f (@const_mx _ _ m n a) = !const_mx (f a) := sorry
+
+lemma map_row (i) : map f (get_row i M) = get_row i (map f M) := sorry
+
+lemma map_col (j) : map f (get_col j M) = get_col j (map f M) := sorry
+
+lemma map_row' {M : matrix A (m+1) n} (i₀) : 
+      map f (row' i₀ M) = row' i₀ (map f M) := sorry
+
+lemma map_col' {M : matrix A m (n+1)} (j₀) : 
+      map f (col' j₀ M) = col' j₀ (map f M) := sorry
+
+end one_matrix
+
+end map_matrix
 
 definition permanent (M : matrix A n n) (i : fin n) : A :=
 ∑ s ← all_perms, ∏ i ← upto n, M[i, move_by i s]
@@ -393,8 +556,6 @@ definition permanent (M : matrix A n n) (i : fin n) : A :=
 /-definition determinant (M : matrix A n n) (i : fin n) : A :=
 ∑ s ← all_perms, (-1) ^ s * ∏ i ← upto n, M[i, move_by i s]-/
 
-
-end
 
 
 end
