@@ -546,9 +546,54 @@ lemma map_row' {M : matrix A (m+1) n} (i₀) :
 lemma map_col' {M : matrix A m (n+1)} (j₀) : 
       map f (col' j₀ M) = col' j₀ (map f M) := sorry
 
+lemma map_row_perm (s) : map f (row_perm s M) = row_perm s (map f M) := sorry
+
+lemma map_col_perm (s) : map f (col_perm s M) = col_perm s (map f M) := sorry
+
+lemma map_xrow (i₁ i₂) : map f (xrow i₁ i₂ M) = xrow i₁ i₂ (map f M) := sorry
+
+lemma map_xcol (i₁ i₂) : map f (xcol i₁ i₂ M) = xcol i₁ i₂ (map f M) := sorry
+
 end one_matrix
 
+section block
+
+variables {m₁ m₂ n₁ n₂ : ℕ}
+variables {Mul : matrix A m₁ n₁} {Mur : matrix A m₁ n₂}
+variables {Mdl : matrix A m₂ n₁} {Mdr : matrix A m₂ n₂}
+variables {Nh : matrix A m₁ (n₁ + n₂)} {Nv : matrix A (m₁ + m₂) n₁}
+variable  {N : matrix A (m₁ + m₂) (n₁ + n₂)}
+
+lemma map_row_mx : map f (row_mx Mul Mur) = row_mx (map f Mul) (map f Mur) :=
+sorry
+
+lemma map_col_mx : map f (col_mx Mul Mdl) = col_mx (map f Mul) (map f Mdl) :=
+sorry
+
+lemma map_block_mx : map f (block_mx Mul Mur Mdl Mdr) = 
+      block_mx (map f Mul) (map f Mur) (map f Mdl) (map f Mdr) := sorry
+
+lemma map_lsubmx : map f (lsubmx Nh) = lsubmx (map f Nh) := sorry
+
+lemma map_rsubmx : map f (rsubmx Nh) = rsubmx (map f Nh) := sorry
+
+lemma map_usubmx : map f (usubmx Nv) = usubmx (map f Nv) := sorry
+
+lemma map_dsubmx : map f (dsubmx Nv) = dsubmx (map f Nv) := sorry
+
+lemma map_ulsubmx : map f (ulsubmx N) = ulsubmx (map f N) := sorry
+
+lemma map_ursubmx : map f (ursubmx N) = ursubmx (map f N) := sorry
+
+lemma map_dlsubmx : map f (dlsubmx N) = dlsubmx (map f N) := sorry
+
+lemma map_drsubmx : map f (drsubmx N) = drsubmx (map f N) := sorry
+
+end block
+
 end map_matrix
+
+
 
 definition permanent (M : matrix A n n) (i : fin n) : A :=
 ∑ s ← all_perms, ∏ i ← upto n, M[i, move_by i s]
