@@ -357,6 +357,35 @@ lemma row_mxA (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) (M₃ : matrix A
 lemma col_mxA (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) (M₃ : matrix A m₃ n) :
       col_mx M₁ (col_mx M₂ M₃) == col_mx (col_mx M₁ M₂) M₃ := sorry
 
+lemma row_row_mx i₀ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
+      get_row i₀ (row_mx M₁ M₂) = row_mx (get_row i₀ M₁) (get_row i₀ M₂) := sorry
+
+lemma col_col_mx j₀ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
+      get_col j₀ (col_mx M₁ M₂) = col_mx (get_col j₀ M₁) (get_col j₀ M₂) := sorry
+
+lemma row'_row_mx i₀ (M₁ : matrix A (m+1) n₁) (M₂ : matrix A (m+1) n₂) : 
+      row' i₀ (row_mx M₁ M₂) = row_mx (row' i₀ M₁) (row' i₀ M₂) := sorry
+
+lemma col'_col_mx j₀ (M₁ : matrix A m₁ (n+1)) (M₂ : matrix A m₂ (n+1)) : 
+      col' j₀ (col_mx M₁ M₂) = col_mx (col' j₀ M₁) (col' j₀ M₂) := sorry
+
+lemma colKl j₁ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
+      get_col (!lshift j₁) (row_mx M₁ M₂) = get_col j₁ M₁ := sorry
+
+lemma colKr j₂ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
+      get_col (!rshift j₂) (row_mx M₁ M₂) = get_col j₂ M₂ := sorry
+
+lemma rowKu i₁ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
+      get_row (!lshift i₁) (col_mx M₁ M₂) = get_row i₁ M₁ := sorry
+
+lemma rowKd i₂ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
+      get_row (!rshift i₂) (col_mx M₁ M₂) = get_row i₂ M₂ := sorry
+
+/-lemma col'Kl j₁ (M₁ : matrix A m (n₁+1)) (M₂ : matrix A m n₂) :
+      col' (!lshift j₁) (row_mx M₁ M₂) = row_mx (col' j₁ M₁) M₂ := sorry-/
+
+
+
 
 definition permanent (M : matrix A n n) (i : fin n) : A :=
 ∑ s ← all_perms, ∏ i ← upto n, M[i, move_by i s]
