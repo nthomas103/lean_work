@@ -219,7 +219,7 @@ section const
 variables {a : A}
 
 lemma trmx_const : transpose (const_mx m n a) = !const_mx a := 
-by inst_simp
+rfl
 
 lemma row_perm_const (p : perm (fin m)) : 
       row_perm p (const_mx m n a) = !const_mx a := 
@@ -231,19 +231,19 @@ matrix.ext (λ i j, rfl)
 
 lemma xrow_const (i₁ i₂ : fin m) : 
       xrow i₁ i₂ (const_mx m n a) = !const_mx a := 
-by inst_simp
+rfl
 
 lemma xcol_const (j₁ j₂ : fin n) : 
       xcol j₁ j₂ (const_mx m n a) = !const_mx a := 
-by inst_simp
+rfl
 
 lemma row_const (i₀ : fin m) : 
       get_row i₀ (const_mx m n a) = !const_mx a := 
-by inst_simp
+rfl
 
 lemma col_const (j₀ : fin n) : 
       get_col j₀ (const_mx m n a) = !const_mx a := 
-by inst_simp
+rfl
 
 lemma row'_const (i₀ : fin (succ m)) : 
       row' i₀ (const_mx (succ m) n a) = !const_mx a := sorry
@@ -257,30 +257,32 @@ lemma row_perm1 (M : matrix A m n) : row_perm 1 M = M := sorry
 
 lemma col_perm1 (M : matrix A m n) : col_perm 1 M = M := sorry
 
-lemma row_permM s t (M : matrix A m n) : row_perm (s * t) M = row_perm s (row_perm t M) := sorry
+lemma row_permM s t (M : matrix A m n) : 
+      row_perm (s * t) M = row_perm s (row_perm t M) := sorry
 
-lemma col_permM s t (M : matrix A m n) : col_perm (s * t) M = col_perm s (col_perm t M) := sorry
+lemma col_permM s t (M : matrix A m n) : 
+      col_perm (s * t) M = col_perm s (col_perm t M) := sorry
 
 lemma col_row_permC s t (M : matrix A m n) : 
       col_perm s (row_perm t M) = row_perm t (col_perm s M) := sorry
 
 postfix `ᵀ`:1500 := transpose
 
-lemma transpose_invo (M : matrix A m n) : Mᵀᵀ = M := by inst_simp
+lemma transpose_invo (M : matrix A m n) : Mᵀᵀ = M := rfl
 
 lemma transpose_inj : injective (λ M : matrix A m n, Mᵀ) := sorry
 
 lemma tr_row_perm s (M : matrix A m n) : (row_perm s M)ᵀ = col_perm s Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_col_perm s (M : matrix A m n) : (col_perm s M)ᵀ = row_perm s Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_xrow i₁ i₂ (M : matrix A m n) : (xrow i₁ i₂ M)ᵀ = xcol i₁ i₂ Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_xcol j₁ j₂ (M : matrix A m n) : (xcol j₁ j₂ M)ᵀ = xrow j₁ j₂ Mᵀ := 
-by inst_simp
+rfl
 
 lemma row_id i (v : row_vector A n) : get_row i v = v := sorry
 
@@ -296,16 +298,16 @@ lemma col_eq n₁ n₂ j₁ j₂ (M₁ : matrix A m n₁) (M₂ : matrix A m n�
 --lemma row'_eq i₀ (M N : matrix A m n) : row' i₀ M = row' i₀ N →
 
 lemma tr_row i₀ (M : matrix A m n) : (get_row i₀ M)ᵀ = get_col i₀ Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_row' i₀ (M : matrix A (succ m) n) : (row' i₀ M)ᵀ = col' i₀ Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_col j₀ (M : matrix A m n) : (get_col j₀ M)ᵀ = get_row j₀ Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_col' j₀ (M : matrix A m (succ n)) : (col' j₀ M)ᵀ = row' j₀ Mᵀ := 
-by inst_simp
+rfl
 
 -- concatenating two matrices, in either direction
 
@@ -379,24 +381,24 @@ lemma col_mx_const (a : A) : col_mx (const_mx m₁ n a) (const_mx m₂ n a) =
       !const_mx a := sorry
 
 lemma trmx_lsub (M : matrix A m (n₁ + n₂)) : (lsubmx M)ᵀ = usubmx Mᵀ := 
-by inst_simp
+rfl
 
 lemma trmx_rsub (M : matrix A m (n₁ + n₂)) : (rsubmx M)ᵀ = dsubmx Mᵀ := 
-by inst_simp
+rfl
 
 lemma tr_row_mx (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
       (row_mx M₁ M₂)ᵀ = col_mx M₁ᵀ M₂ᵀ := 
-by inst_simp
+rfl
 
 lemma tr_col_mx (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
       (col_mx M₁ M₂)ᵀ = row_mx M₁ᵀ M₂ᵀ := 
-by inst_simp
+rfl
 
 lemma trmx_usub (M : matrix A (m₁ + m₂) n) : (usubmx M)ᵀ = lsubmx Mᵀ := 
-by inst_simp
+rfl
 
 lemma trmx_dsub (M : matrix A (m₁ + m₂) n) : (dsubmx M)ᵀ = rsubmx Mᵀ := 
-by inst_simp
+rfl
 
 lemma vsubmxK (M : matrix A (m₁ + m₂) n) : 
       col_mx (usubmx M) (dsubmx M) = M := sorry
@@ -409,11 +411,11 @@ lemma col_mxA (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) (M₃ : matrix A
 
 lemma row_row_mx i₀ (M₁ : matrix A m n₁) (M₂ : matrix A m n₂) : 
       get_row i₀ (row_mx M₁ M₂) = row_mx (get_row i₀ M₁) (get_row i₀ M₂) :=
-by inst_simp
+rfl
 
 lemma col_col_mx j₀ (M₁ : matrix A m₁ n) (M₂ : matrix A m₂ n) : 
       get_col j₀ (col_mx M₁ M₂) = col_mx (get_col j₀ M₁) (get_col j₀ M₂) :=
-by inst_simp
+rfl
 
 lemma row'_row_mx i₀ (M₁ : matrix A (m+1) n₁) (M₂ : matrix A (m+1) n₂) : 
       row' i₀ (row_mx M₁ M₂) = row_mx (row' i₀ M₁) (row' i₀ M₂) := sorry
@@ -507,13 +509,13 @@ section tr_cut_block
 variables {m₁ m₂ n₁ n₂ : ℕ}
 variable M : matrix A (m₁ + m₂) (n₁ + n₂)
 
-lemma trmx_ulsub : (ulsubmx M)ᵀ = ulsubmx Mᵀ := by inst_simp
+lemma trmx_ulsub : (ulsubmx M)ᵀ = ulsubmx Mᵀ := rfl
 
-lemma trmx_ursub : (ursubmx M)ᵀ = dlsubmx Mᵀ := by inst_simp
+lemma trmx_ursub : (ursubmx M)ᵀ = dlsubmx Mᵀ := rfl
 
-lemma trmx_dlsub : (dlsubmx M)ᵀ = ursubmx Mᵀ := by inst_simp
+lemma trmx_dlsub : (dlsubmx M)ᵀ = ursubmx Mᵀ := rfl
 
-lemma trmx_drsub : (drsubmx M)ᵀ = drsubmx Mᵀ := by inst_simp
+lemma trmx_drsub : (drsubmx M)ᵀ = drsubmx Mᵀ := rfl
 
 end tr_cut_block
 
@@ -550,14 +552,14 @@ section one_matrix
 
 variables {M : matrix A m n} 
 
-lemma map_trmx : (map f M)ᵀ = map f Mᵀ := by inst_simp
+lemma map_trmx : (map f M)ᵀ = map f Mᵀ := rfl
 
 lemma map_const_mx (a : A) : 
-      map f (@const_mx _ _ m n a) = !const_mx (f a) := by inst_simp
+      map f (@const_mx _ _ m n a) = !const_mx (f a) := rfl
 
-lemma map_row (i) : map f (get_row i M) = get_row i (map f M) := by inst_simp
+lemma map_row (i) : map f (get_row i M) = get_row i (map f M) := rfl
 
-lemma map_col (j) : map f (get_col j M) = get_col j (map f M) := by inst_simp
+lemma map_col (j) : map f (get_col j M) = get_col j (map f M) := rfl
 
 lemma map_row' {M : matrix A (m+1) n} (i₀) : 
       map f (row' i₀ M) = row' i₀ (map f M) := sorry
@@ -566,16 +568,16 @@ lemma map_col' {M : matrix A m (n+1)} (j₀) :
       map f (col' j₀ M) = col' j₀ (map f M) := sorry
 
 lemma map_row_perm (s) : map f (row_perm s M) = row_perm s (map f M) := 
-by inst_simp
+rfl
 
 lemma map_col_perm (s) : map f (col_perm s M) = col_perm s (map f M) := 
-by inst_simp
+rfl
 
 lemma map_xrow (i₁ i₂) : map f (xrow i₁ i₂ M) = xrow i₁ i₂ (map f M) := 
-by inst_simp
+rfl
 
 lemma map_xcol (i₁ i₂) : map f (xcol i₁ i₂ M) = xcol i₁ i₂ (map f M) := 
-by inst_simp
+rfl
 
 end one_matrix
 
@@ -596,21 +598,21 @@ sorry
 lemma map_block_mx : map f (block_mx Mul Mur Mdl Mdr) = 
       block_mx (map f Mul) (map f Mur) (map f Mdl) (map f Mdr) := sorry
 
-lemma map_lsubmx : map f (lsubmx Nh) = lsubmx (map f Nh) := by inst_simp
+lemma map_lsubmx : map f (lsubmx Nh) = lsubmx (map f Nh) := rfl
 
-lemma map_rsubmx : map f (rsubmx Nh) = rsubmx (map f Nh) := by inst_simp
+lemma map_rsubmx : map f (rsubmx Nh) = rsubmx (map f Nh) := rfl
 
-lemma map_usubmx : map f (usubmx Nv) = usubmx (map f Nv) := by inst_simp
+lemma map_usubmx : map f (usubmx Nv) = usubmx (map f Nv) := rfl
 
-lemma map_dsubmx : map f (dsubmx Nv) = dsubmx (map f Nv) := by inst_simp
+lemma map_dsubmx : map f (dsubmx Nv) = dsubmx (map f Nv) := rfl
 
-lemma map_ulsubmx : map f (ulsubmx N) = ulsubmx (map f N) := by inst_simp
+lemma map_ulsubmx : map f (ulsubmx N) = ulsubmx (map f N) := rfl
 
-lemma map_ursubmx : map f (ursubmx N) = ursubmx (map f N) := by inst_simp
+lemma map_ursubmx : map f (ursubmx N) = ursubmx (map f N) := rfl
 
-lemma map_dlsubmx : map f (dlsubmx N) = dlsubmx (map f N) := by inst_simp
+lemma map_dlsubmx : map f (dlsubmx N) = dlsubmx (map f N) := rfl
 
-lemma map_drsubmx : map f (drsubmx N) = drsubmx (map f N) := by inst_simp
+lemma map_drsubmx : map f (drsubmx N) = drsubmx (map f N) := rfl
 
 end block
 
@@ -668,7 +670,7 @@ one_smul := scale1mx
 ⦄
 
 lemma scalemx_const (a b : A) : 
-      a ⬝ (const_mx m n b) = !const_mx (a * b) := by inst_simp
+      a ⬝ (const_mx m n b) = !const_mx (a * b) := rfl
 
 lemma matrix_sum_delta (M : matrix A m n) :
       M = ∑ i ← upto m, ∑ j ← upto n, M[i, j] ⬝ (delta_mx i j) := sorry
