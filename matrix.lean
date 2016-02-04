@@ -14,7 +14,7 @@ open fin group_theory function nat eq.ops list
 
 -- preliminary definitions
 
-definition swap {T : Type} (a b : T) [decidable_eq T] (r : T) : T :=
+definition swap [reducible] {T : Type} (a b : T) [decidable_eq T] (r : T) : T :=
 if r = a then b else
 if r = b then a else r
 
@@ -22,8 +22,8 @@ theorem swap_inj {T : Type} (a b : T) [decidable_eq T] :
         injective (swap a b) :=
 sorry
 
-definition swap_perm {T : Type} (a b : T) [decidable_eq T] [fintype T] : 
-           perm T :=
+definition swap_perm [reducible] {T : Type} (a b : T) 
+           [decidable_eq T] [fintype T] : perm T :=
 perm.mk (swap a b) (swap_inj a b)
 
 lemma split_helper {a b c : ℕ} (h₁ : ¬ a < b) (h₂ : a < b + c) : a - b < c := 
@@ -230,10 +230,12 @@ lemma col_perm_const (p : perm (fin n)) :
 matrix.ext (λ i j, rfl)
 
 lemma xrow_const (i₁ i₂ : fin m) : 
-      xrow i₁ i₂ (const_mx m n a) = !const_mx a := sorry
+      xrow i₁ i₂ (const_mx m n a) = !const_mx a := 
+by inst_simp
 
 lemma xcol_const (j₁ j₂ : fin n) : 
-      xcol j₁ j₂ (const_mx m n a) = !const_mx a := sorry
+      xcol j₁ j₂ (const_mx m n a) = !const_mx a := 
+by inst_simp
 
 lemma row_const (i₀ : fin m) : 
       get_row i₀ (const_mx m n a) = !const_mx a := 
@@ -455,7 +457,8 @@ section block
 variables {m₁ m₂ n₁ n₂ : ℕ}
 
 
-definition block_mx (Mul Mur Mdl Mdr) : matrix A (m₁ + m₂) (n₁ + n₂) :=
+definition block_mx [reducible] (Mul Mur Mdl Mdr) : 
+           matrix A (m₁ + m₂) (n₁ + n₂) :=
            col_mx (row_mx Mul Mur) (row_mx Mdl Mdr)
 
 lemma eq_block_mx (Mul Mur Mdl Mdr Nul Nur Ndl Ndr) : 
@@ -470,10 +473,10 @@ section cut_block
 
 variable (M : matrix A (m₁ + m₂) (n₁ + n₂))
 
-definition ulsubmx := lsubmx (usubmx M)
-definition ursubmx := rsubmx (usubmx M)
-definition dlsubmx := lsubmx (dsubmx M)
-definition drsubmx := rsubmx (dsubmx M)
+definition ulsubmx [reducible] := lsubmx (usubmx M)
+definition ursubmx [reducible] := rsubmx (usubmx M)
+definition dlsubmx [reducible] := lsubmx (dsubmx M)
+definition drsubmx [reducible] := rsubmx (dsubmx M)
 
 --lemma submxK : block_mx ulsubmx ursubmx dlsubmx drsubmx = M := sorry
 
@@ -484,7 +487,7 @@ section cat_block
 variables {Mul : matrix A m₁ n₁} {Mur : matrix A m₁ n₂}
 variables {Mdl : matrix A m₂ n₁} {Mdr : matrix A m₂ n₂}
 
-definition M := block_mx Mul Mur Mdl Mdr
+definition M [reducible] := block_mx Mul Mur Mdl Mdr
 
 /- elaborator issues ?
 
@@ -504,13 +507,13 @@ section tr_cut_block
 variables {m₁ m₂ n₁ n₂ : ℕ}
 variable M : matrix A (m₁ + m₂) (n₁ + n₂)
 
-lemma trmx_ulsub : (ulsubmx M)ᵀ = ulsubmx Mᵀ := sorry
+lemma trmx_ulsub : (ulsubmx M)ᵀ = ulsubmx Mᵀ := by inst_simp
 
-lemma trmx_ursub : (ursubmx M)ᵀ = dlsubmx Mᵀ := sorry
+lemma trmx_ursub : (ursubmx M)ᵀ = dlsubmx Mᵀ := by inst_simp
 
-lemma trmx_dlsub : (dlsubmx M)ᵀ = ursubmx Mᵀ := sorry
+lemma trmx_dlsub : (dlsubmx M)ᵀ = ursubmx Mᵀ := by inst_simp
 
-lemma trmx_drsub : (drsubmx M)ᵀ = drsubmx Mᵀ := sorry
+lemma trmx_drsub : (drsubmx M)ᵀ = drsubmx Mᵀ := by inst_simp
 
 end tr_cut_block
 
@@ -522,7 +525,8 @@ variables {Mul : matrix A m₁ n₁} {Mur : matrix A m₁ n₂}
 variables {Mdl : matrix A m₂ n₁} {Mdr : matrix A m₂ n₂}
 
 lemma tr_block_mx : 
-      (block_mx Mul Mur Mdl Mdr)ᵀ = block_mx Mulᵀ Mdlᵀ Murᵀ Mdrᵀ := sorry
+      (block_mx Mul Mur Mdl Mdr)ᵀ = block_mx Mulᵀ Mdlᵀ Murᵀ Mdrᵀ := 
+sorry
 
 lemma block_mxEh : 
       block_mx Mul Mur Mdl Mdr = row_mx (col_mx Mul Mdl) (col_mx Mur Mdr) :=
@@ -600,13 +604,13 @@ lemma map_usubmx : map f (usubmx Nv) = usubmx (map f Nv) := by inst_simp
 
 lemma map_dsubmx : map f (dsubmx Nv) = dsubmx (map f Nv) := by inst_simp
 
-lemma map_ulsubmx : map f (ulsubmx N) = ulsubmx (map f N) := sorry
+lemma map_ulsubmx : map f (ulsubmx N) = ulsubmx (map f N) := by inst_simp
 
-lemma map_ursubmx : map f (ursubmx N) = ursubmx (map f N) := sorry
+lemma map_ursubmx : map f (ursubmx N) = ursubmx (map f N) := by inst_simp
 
-lemma map_dlsubmx : map f (dlsubmx N) = dlsubmx (map f N) := sorry
+lemma map_dlsubmx : map f (dlsubmx N) = dlsubmx (map f N) := by inst_simp
 
-lemma map_drsubmx : map f (drsubmx N) = drsubmx (map f N) := sorry
+lemma map_drsubmx : map f (drsubmx N) = drsubmx (map f N) := by inst_simp
 
 end block
 
