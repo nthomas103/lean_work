@@ -8,7 +8,8 @@ Matrices
 NCT: translation of Coq Mathematical Components library into Lean
 (https://github.com/math-comp/math-comp/blob/master/mathcomp/algebra/matrix.v)
 -/
-import algebra.ring data.fin data.fintype theories.group_theory.perm data.list
+import algebra.ring data.fin data.fintype theories.group_theory.perm 
+import data.list algebra.module
 open fin group_theory function nat eq.ops list
 
 -- preliminary definitions
@@ -119,19 +120,23 @@ definition const_mx (m n : nat) (a : A) : matrix A m n :=
 protected definition zero (m n : nat) : matrix A m n :=
 λ i j, 0
 
-protected definition add (M : matrix A m n) (N : matrix A m n) : matrix A m n :=
+protected definition add (M : matrix A m n) (N : matrix A m n) : 
+                     matrix A m n :=
 λ i j, M[i, j] + N[i, j]
 
-protected definition sub (M : matrix A m n) (N : matrix A m n) : matrix A m n :=
+protected definition sub (M : matrix A m n) (N : matrix A m n) : 
+                     matrix A m n :=
 λ i j, M[i, j] - N[i, j]
 
-protected definition mul (M : matrix A m n) (N : matrix A n p) : matrix A m p :=
+protected definition mul (M : matrix A m n) (N : matrix A n p) : 
+                     matrix A m p :=
 λ i j, fin.foldl has_add.add 0 (λ k : fin n, M[i,k] * N[k,j])
 
 definition smul (a : A) (M : matrix A m n) : matrix A m n :=
 λ i j, a * M[i, j]
 
-definition matrix_has_zero [reducible] [instance] (m n : nat) : has_zero (matrix A m n) :=
+definition matrix_has_zero [reducible] [instance] (m n : nat) : 
+           has_zero (matrix A m n) :=
 has_zero.mk (matrix.zero m n)
 
 definition matrix_has_one [reducible] [instance] (n : nat) : has_one (matrix A n n) :=
@@ -593,6 +598,71 @@ end block
 
 end map_matrix
 
+
+-- matrix ring module, graded ring, and ring structures
+
+section matrix_algebra
+
+section ring_module
+
+-- basis
+
+definition delta_mx (i₀ j₀) : matrix A m n :=
+λ i j, if (i = i₀ ∧ j = j₀) then 1 else 0
+
+lemma scale1mx (M : matrix A m n) : 1 ⬝ M = M := sorry
+
+lemma scalemxDl (x y) (M : matrix A m n) : (x + y) ⬝ M = x ⬝ M + y ⬝ M := 
+sorry
+
+lemma scalemxDr (x) (M N : matrix A m n) : x ⬝ (M + N) = x ⬝ M + x ⬝ N := 
+sorry
+
+lemma scalemxA (x y) (M : matrix A m n) : (x * y) ⬝ M = x ⬝ (y ⬝ M) := sorry
+
+protected definition neg (M : matrix A m n) : matrix A m n :=
+λ i j, -M[i, j]
+
+definition matrix_has_neg [reducible] [instance] (m n : nat) : 
+           has_neg (matrix A m n) :=
+has_neg.mk (matrix.neg)
+
+protected lemma add_left_inv (M : matrix A m n) : -M + M = 0 :=
+matrix.ext (λ i j, !add.left_inv)
+
+definition matrix_left_module [reducible] [instance] : 
+           left_module A (matrix A m n) :=
+⦃ left_module,
+add := add,
+zero := zero,
+neg := neg,
+add_left_inv := matrix.add_left_inv,
+zero_add := matrix.zero_add,
+add_zero := matrix.add_zero,
+add_assoc := add.assoc,
+add_comm := add.comm,
+smul := smul,
+smul_left_distrib := scalemxDr,
+smul_right_distrib := scalemxDl,
+smul_mul := scalemxA,
+one_smul := scale1mx
+⦄
+
+lemma scalemx_const (a b : A) : 
+      a ⬝ (const_mx m n b) = !const_mx (a * b) := sorry
+
+lemma matrix_sum_delta (M : matrix A m n) :
+      M = ∑ i ← upto m, ∑ j ← upto n, M[i, j] ⬝ (delta_mx i j) := sorry
+
+end ring_module
+
+lemma trmx_delta (i j) : (@delta_mx A m n _ i j)ᵀ = delta_mx j i := sorry
+
+/-lemma row_sum_delta (n) (u : row_vector A n) : 
+      u = ∑ j ← upto n, (u 0 j) * (@delta_mx A m n _ 0 j) := sorry-/
+
+
+end matrix_algebra
 
 
 definition permanent (M : matrix A n n) (i : fin n) : A :=
