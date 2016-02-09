@@ -12,6 +12,7 @@ check true
 check λ n : ℕ, n ≥ 1
 check λ (x : ℝ) (H : x ≠ 3), 1 / (x - 3)
 check @nat.induction_on
+check Type
 check Prop
 check Type₁
 check Type₂
@@ -56,13 +57,15 @@ eval fib 6
 eval fib 7
 
 theorem fib_pos : ∀ n, 0 < fib n
-| fib_pos 0 := zero_lt_one
-| fib_pos 1 := zero_lt_one
-| fib_pos (a+2) := calc
+| fib_pos 0 := sorry
+| fib_pos 1 := sorry
+| fib_pos (a+2) := sorry
+
+/-calc
   0 = 0 + 0             : rfl
 ... < fib (a+1) + 0     : !add_lt_add_right !fib_pos
 ... < fib (a+1) + fib a : !add_lt_add_left  !fib_pos
-... = fib (a+2)         : rfl
+... = fib (a+2)         : rfl-/
 
 theorem nat_induct (P : ℕ → Prop) : ∀ n, P 0 → (∀ n, P n → P (n+1)) → P n
 | 0     p₀  _     := p₀
@@ -99,11 +102,6 @@ definition uncurry [reducible] {A B C} (f : A → B → C) : A × B → C :=
 
 theorem uncurry_curry {A B C} (f : A → B → C) : curry (uncurry f) = f :=
 !eq.refl
-/-funext (λ a, funext (λ b,
-  calc curry (uncurry f) a b = (uncurry f) (a,b) : rfl
-             ...             = f (a,b).1 (a,b).2 : rfl
-             ...             = f (a,b).1 b       : pr2.mk a b
-             ...             = f a b             : pr1.mk a b))-/
 
 reveal uncurry_curry
 print uncurry_curry
@@ -183,7 +181,7 @@ notation l₁ ++ l₂ := append l₁ l₂
 eval [1,2,3] ++ [3,2,(1:ℕ)]
 
 definition mem : T → list T → Prop
-| a [] := false
+| a []       := false
 | a (b :: l) := a = b ∨ mem a l
 
 variables {A B : Type}
@@ -197,8 +195,7 @@ end list
 
 
 inductive btree : Type := 
-| leaf : ℕ → btree
-| node : ℕ → btree → btree → btree
+sorry
 
 print btree.rec
 
@@ -214,11 +211,10 @@ print eq.rec
 -- Curry-Howard correspondence
 
 inductive and (A B : Prop) :=
-| mk : A → B → and A B
+sorry
 
 inductive or (A B : Prop) :=
-| inl : A → or A B
-| inr : B → or A B
+sorry
 
 inductive false : Prop
 
@@ -230,13 +226,7 @@ print not
 
 end hide
 
-theorem my_stupid_theorem (p q : Prop) : p → p ∨ q :=
-assume Hp : p, 
-or.inl Hp
 
-theorem and_comm (p q : Prop) : p ∧ q → q ∧ p :=
-assume Hpq : p ∧ q,
-and.intro (and.right Hpq) (and.left Hpq)
 
 
 
@@ -272,21 +262,19 @@ structure has_inv (A : Type) :=
 
 
 structure monoid (A : Type) extends has_mul A, has_one A :=
-(right_id : ∀ a, mul a one = a)
-(left_id  : ∀ a, mul one a = a)
+sorry
 
 
 structure comm_semigroup (A : Type) extends semigroup A :=
-(comm : ∀ a b, mul a b = mul b a)
-
+sorry
 
 structure comm_monoid (A : Type) extends comm_semigroup A, monoid A
 
 print hide.comm_monoid
 
 
-structure group (A : Type) extends monoid A, has_inv A :=
-(mul_left_inv : ∀ a, mul (inv a) a = one)
+--structure group (A : Type) 
+
 
 
 end hide
@@ -295,11 +283,12 @@ section group_proofs
 
 variables {G : Type} [group G]
 
-example (a : G) (h₁ : a = a⁻¹) : a * a = 1 := calc
-a * a = a⁻¹ * a : {h₁}
-  ... = 1       : !group.mul_left_inv
+example (a : G) (h₁ : a = a⁻¹) : a * a = 1 := 
+sorry
 
-example (a : G) (h₁ : a = a⁻¹) : a * a = 1 := by inst_simp
+
+example (a : G) (h₁ : a = a⁻¹) : a * a = 1 := 
+sorry
 
 
 end group_proofs
