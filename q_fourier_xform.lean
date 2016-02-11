@@ -47,7 +47,7 @@ definition qcirc (n) := Σ (U : mx (2^n,2^n)), is_unitary U
 
 noncomputable definition qcirc_comp 
   {n} (q₁ : qcirc n) (q₂ : qcirc n) : qcirc n := 
-⟨matrix.mul q₁.1 q₂.1, @mul_unitary _ q₁.1 q₂.1 q₁.2 q₂.2⟩
+⟨matrix.mul q₂.1 q₁.1, @mul_unitary _ q₂.1 q₁.1 q₂.2 q₁.2⟩
 infixl `**`:97 := qcirc_comp
 
 definition qcirc_stack
