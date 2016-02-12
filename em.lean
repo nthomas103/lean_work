@@ -87,24 +87,23 @@ definition skew_symm {n} {T : Type} [comm_ring T] (A : matrix T n n) :=
 
 constant A' : vector (vc 4 → ℝ) 4
 
-constant D {n} : vector ((vc n → ℝ) → (vc n → ℝ)) n
+constant partial_derivative {n} : vector ((vc n → ℝ) → (vc n → ℝ)) n
+notation `∂` := partial_derivative
 
 definition F' : matrix (vc 4 → ℝ) 4 4 := 
-λ μ ν x, (D μ) (A' ν) x - (D ν) (A' μ) x
+λ μ ν x, ∂ μ (A' ν) x - ∂ ν (A' μ) x
 
 constant j' : vector (vc 4 → ℝ) 4
 
 constant π : ℝ
 
 constant homogeneous_maxwell' : 
-     ∀ μ ρ σ x, (D μ) (F' ρ σ) x + (D ρ) (F' σ μ) x + (D σ) (F' μ ρ) x = 0
+     ∀ μ ρ σ x, ∂ μ (F' ρ σ) x + ∂ ρ (F' σ μ) x + ∂ σ (F' μ ρ) x = 0
 
 constant heterogeneous_maxwell' : 
-     ∀ ν x, (∑ μ ← upto 4, (D μ) (F' μ ν) x) = - 4 * π * (j' ν) x
+     ∀ ν x, (∑ μ ← upto 4, ∂ μ (F' μ ν) x) = - 4 * π * (j' ν) x
 
-attribute [simp] heterogeneous_maxwell'
-
-lemma charge_conservation : ∀ x, (∑ μ ← upto 4, (D μ) (j' μ) x) = 0 := 
+lemma charge_conservation : ∀ x, (∑ μ ← upto 4, ∂ μ (j' μ) x) = 0 := 
 sorry
 
 /-lemma deriv_comm : ∀ T μ ν x, (D μ) ((D ν) T) x = (D ν) ((D μ) T) x :=
@@ -135,7 +134,7 @@ definition vtail {A : Type} {n} (v : vector A (n+1)) : vector A n :=
 
 noncomputable definition d {n m : ℕ} (T : tn (vc n → ℝ) n m) : 
                          tn (vc n → ℝ) n (m+1) :=
-anti_symmetrize (λ v, D (vhead v) (T (vtail v)))
+anti_symmetrize (λ v, ∂ (vhead v) (T (vtail v)))
 
 theorem d2_0 [simp] {n m} {T : tn _ n m} {μ x} : d (d T) μ x = 0 := 
 sorry
@@ -146,7 +145,23 @@ noncomputable definition F := d A
 
 attribute [reducible] F
 
-theorem homogeneous_maxwell {μ} {x} : (d F) μ x = 0 := by inst_simp
+definition vc_add [instance] {n m} : has_add (tn (vc n → ℝ) n m) := sorry
+
+lemma d_additive [simp] {n m} (B C : tn (vc n → ℝ) n m) {μ x} : 
+      d (B + C) μ x = (d B) μ x + (d C) μ x :=
+sorry
+
+/-lemma d_homog {n m} (a : ℝ) (B : tn (vc n → ℝ) n m) :
+      d (a * B) = a * (d B) := sorry-/
+
+lemma gauge_transform {m} (A : tn (vc 4 → ℝ) 4 (m+1)) 
+                          (f : tn (vc 4 → ℝ) 4 m) {μ x} : 
+      d (A + d f) μ x = d A μ x := calc
+d (A + d f) μ x = d A μ x + d (d f) μ x : d_additive
+  ...           = d A μ x + 0           : {d2_0}
+  ...           = d A μ x               : by simp
+
+theorem homogeneous_maxwell {μ x} : (d F) μ x = 0 := by inst_simp
 
 --constant ε {n} {μ : vector (fin n) n} : ℤ
 
