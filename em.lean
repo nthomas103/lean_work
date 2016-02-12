@@ -128,8 +128,10 @@ noncomputable definition anti_symmetrize {n m : ℕ}
   (T : tn (vc n → ℝ) n m) : tn (vc n → ℝ) n m :=
 λ v, (fact m)⁻¹ • ∑ σ ← all_perms, sgn σ • (T (move_by v σ))
 
-constant vhead {A : Type} {n} (v : vector A (n+1)) : A
-constant vtail {A : Type} {n} (v : vector A (n+1)) : vector A n
+definition vhead {A : Type} {n} (v : vector A (n+1)) : A := 
+v (mk 0 !zero_lt_succ)
+definition vtail {A : Type} {n} (v : vector A (n+1)) : vector A n :=
+λ i, v (mk (val i + 1) (add_lt_add_right (is_lt i) 1))
 
 noncomputable definition d {n m : ℕ} (T : tn (vc n → ℝ) n m) : 
                          tn (vc n → ℝ) n (m+1) :=
